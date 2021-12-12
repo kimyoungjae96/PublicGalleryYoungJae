@@ -5569,6 +5569,11 @@ react-native-codegen@^0.0.7:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+react-native-image-picker@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-4.6.0.tgz#9df927baa20835fd7adba76185359241e6204e00"
+  integrity sha512-Kb0GbPlHm0zAjJpI0vJ/41WSS0mHfbn851cwvn61myse+eMJCku1nixqPlCp4SbpM0lMZIGJgXqZBkqalZnWjg==
+
 react-native-safe-area-context@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-3.3.2.tgz#9549a2ce580f2374edb05e49d661258d1b8bcaed"
