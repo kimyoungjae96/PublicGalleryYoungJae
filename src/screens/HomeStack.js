@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator();
 function HomeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Feed" component={FeedScreen} />{' '}
+      <Stack.Screen name="Feed" component={FeedScreen} />
     </Stack.Navigator>
   );
 }
