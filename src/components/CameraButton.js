@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Pressable, StyleSheet, Platform} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import UploadModeModal from './UploadModeModal';
 
 const TABBAR_HEIGHT = 49;
 
 function CameraButton() {
   const insets = useSafeAreaInsets();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const bottom = Platform.select({
     android: TABBAR_HEIGHT / 2,
@@ -14,11 +16,22 @@ function CameraButton() {
   });
 
   return (
-    <View style={[styles.wrapper, {bottom}]}>
-      <Pressable android_ripple={{color: '#ffffff'}} style={styles.circle}>
-        <Icon name="camera-alt" color="white" size={24} />
-      </Pressable>
-    </View>
+    <>
+      <View style={[styles.wrapper, {bottom}]}>
+        <Pressable
+          android_ripple={{color: '#ffffff'}}
+          style={styles.circle}
+          onPress={() => {
+            setModalVisible(true);
+          }}>
+          <Icon name="camera-alt" color="white" size={24} />
+        </Pressable>
+      </View>
+      <UploadModeModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
+    </>
   );
 }
 
