@@ -1,14 +1,14 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useCallback} from 'react';
 import {
   StyleSheet,
   View,
   TextInput,
-  Image,
   Animated,
   Keyboard,
   useWindowDimensions,
 } from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import IconRightButton from '../components/IconRightButton';
 
 function UploadScreen() {
   const route = useRoute();
@@ -16,6 +16,11 @@ function UploadScreen() {
   const {width} = useWindowDimensions();
   const animation = useRef(new Animated.Value(width)).current;
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const [description, setDescription] = useState('');
+  const navigation = useNavigation();
+  const onSubmit = useCallback(() => {
+    // TODO: 포스트 작성 로직 구현
+  }, []);
 
   useEffect(() => {
     const didShow = Keyboard.addListener('keyboardDidShow', () => {
@@ -40,6 +45,12 @@ function UploadScreen() {
     }).start();
   }, [isKeyboardOpen, width, animation]);
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <IconRightButton onPress={onSubmit} name="send" />,
+    });
+  }, [navigation, onSubmit]);
+
   return (
     <View style={styles.block}>
       <Animated.Image
@@ -52,6 +63,8 @@ function UploadScreen() {
         multiline
         placeholder="이 사진에 대한 설명을 입력하세요..."
         textAlignVertical="top"
+        value={description}
+        onChangeText={setDescription}
       />
     </View>
   );
