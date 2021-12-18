@@ -1,14 +1,18 @@
 import React, {useMemo} from 'react';
 import {View, StyleSheet, Text, Image, Pressable} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 function PostCard({user, photoURL, description, createdAt, id}) {
   const date = useMemo(
     () => (createdAt ? new Date(createdAt._seconds * 1000) : new Date()),
     [createdAt],
   );
-
+  const navigation = useNavigation();
   const onOpenProfile = () => {
-    // TODO: 사용자 프로필 화면 열기
+    navigation.navigate('Profile', {
+      userId: user.id,
+      displayName: user.displayName,
+    });
   };
 
   return (
