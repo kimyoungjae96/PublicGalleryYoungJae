@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {getPosts} from '../lib/posts';
 import {getUser} from '../lib/users';
+import PostGridItem from './PostGridItem';
 
 function Profile({userId}) {
   const [user, setUser] = useState(null);
@@ -28,6 +29,10 @@ function Profile({userId}) {
   return (
     <FlatList
       style={styles.block}
+      data={posts}
+      renderItem={renderItem}
+      numColumns={3}
+      keyExtractor={item => item.id}
       ListHeaderComponent={
         <View style={styles.userInfo}>
           <Image
@@ -41,6 +46,8 @@ function Profile({userId}) {
     />
   );
 }
+
+const renderItem = ({item}) => <PostGridItem post={item} />;
 
 const styles = StyleSheet.create({
   spinner: {

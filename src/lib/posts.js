@@ -15,26 +15,32 @@ export function createPost({user, photoURL, description}) {
 export const PAGE_SIZE = 3;
 
 export async function getPosts({userId, mode, id} = {}) {
-  let query = postsCollection.orderBy('createdAt', 'desc').limit(PAGE_SIZE);
-  if (userId) {
-    query = query.where('user.id', '==', userId);
+  try {
+    let query = postsCollection.orderBy('createdAt', 'desc').limit(PAGE_SIZE);
+    if (userId) {
+      query = query.where('user.id', '==', userId);
+    }
+    if (id) {
+      const cursorDoc = await postsCollection.doc(id).get();
+      query =
+        mode === 'older'
+          ? query.startAfter(cursorDoc)
+          : query.endBefore(cursorDoc);
+    }
+
+    const snapshot = await query.get();
+
+    const posts = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    console.log('p', posts);
+
+    return posts;
+  } catch (e) {
+    console.log('error', e);
   }
-  if (id) {
-    const cursorDoc = await postsCollection.doc(id).get();
-    query =
-      mode === 'older'
-        ? query.startAfter(cursorDoc)
-        : query.endBefore(cursorDoc);
-  }
-
-  const snapshot = await query.get();
-
-  const posts = snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-
-  return posts;
 }
 
 export async function getOlderPosts(id, userId) {
